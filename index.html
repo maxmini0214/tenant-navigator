@@ -103,10 +103,36 @@ header p{color:var(--gray-600);font-size:.9rem}
 .disclaimer{background:var(--gray-100);border-radius:var(--radius);padding:14px;font-size:.75rem;color:var(--gray-600);margin:20px 0;line-height:1.6}
 footer{text-align:center;padding:24px 0;font-size:.75rem;color:var(--gray-400)}
 
+/* Letter Generator Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;overflow-y:auto;padding:16px}
+.modal-overlay.active{display:flex;justify-content:center;align-items:flex-start}
+.modal{background:#fff;border-radius:var(--radius);max-width:700px;width:100%;margin:20px auto;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-header{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--gray-200)}
+.modal-header h2{font-size:1.15rem;color:var(--navy)}
+.modal-close{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-400);padding:4px 8px}
+.modal-close:hover{color:var(--gray-800)}
+.modal-body{padding:24px}
+.modal-tabs{display:flex;border-bottom:2px solid var(--gray-200);margin-bottom:20px}
+.modal-tab{flex:1;padding:12px;text-align:center;font-weight:600;font-size:.9rem;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--gray-400);transition:all .2s}
+.modal-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.letter-preview{background:#fff;border:1px solid var(--gray-200);padding:40px;font-family:'Noto Sans KR',serif;font-size:14px;line-height:2;min-height:600px;box-shadow:inset 0 0 0 1px var(--gray-100)}
+.letter-preview h2{text-align:center;font-size:18px;letter-spacing:8px;margin-bottom:30px;font-weight:700}
+.letter-preview .letter-section{margin-bottom:16px}
+.letter-preview .letter-label{font-weight:700;margin-right:8px}
+.letter-preview .letter-body{margin:24px 0;text-indent:1em}
+.letter-preview .letter-body p{margin-bottom:12px;text-align:justify}
+.letter-preview .letter-date{text-align:right;margin-top:30px}
+.letter-preview .letter-sign{text-align:right;margin-top:8px}
+.input-row{display:flex;gap:12px}
+.input-row .input-group{flex:1}
+@media(max-width:500px){.input-row{flex-direction:column;gap:0}}
+
 /* Print */
 @media print{
   body{background:#fff}
-  .btn,.cta-box,.email-box,.no-print{display:none!important}
+  .btn,.cta-box,.email-box,.no-print,.modal-overlay{display:none!important}
   .card{box-shadow:none;border:1px solid #ddd}
   .container{max-width:100%}
 }
@@ -207,6 +233,76 @@ footer{text-align:center;padding:24px 0;font-size:.75rem;color:var(--gray-400)}
     <div class="btn-row no-print" style="margin-top:16px">
       <button class="btn btn-outline btn-sm" onclick="goStep(1);resetAll()">🔄 처음부터 다시</button>
       <button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+    </div>
+  </div>
+
+  <!-- 내용증명 생성 모달 -->
+  <div class="modal-overlay" id="letterModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>📝 내용증명 자동 생성</h2>
+        <button class="modal-close" onclick="closeLetter()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-tabs">
+          <div class="modal-tab active" onclick="switchTab('input')">① 정보 입력</div>
+          <div class="modal-tab" onclick="switchTab('preview')">② 미리보기</div>
+        </div>
+
+        <div class="tab-content active" id="tab-input">
+          <div class="card" style="box-shadow:none;padding:0">
+            <h3 style="margin-bottom:16px">📮 발신인 (임차인) 정보</h3>
+            <div class="input-row">
+              <div class="input-group"><label>성명</label><input type="text" id="lt-sender-name" placeholder="홍길동"></div>
+              <div class="input-group"><label>연락처</label><input type="tel" id="lt-sender-phone" placeholder="010-1234-5678"></div>
+            </div>
+            <div class="input-group"><label>주소</label><input type="text" id="lt-sender-addr" placeholder="현재 거주지 주소"></div>
+          </div>
+          <div class="card" style="box-shadow:none;padding:0;margin-top:20px">
+            <h3 style="margin-bottom:16px">📬 수신인 (임대인) 정보</h3>
+            <div class="input-row">
+              <div class="input-group"><label>성명</label><input type="text" id="lt-receiver-name" placeholder="김철수"></div>
+              <div class="input-group"><label>연락처</label><input type="tel" id="lt-receiver-phone" placeholder="010-9876-5432"></div>
+            </div>
+            <div class="input-group"><label>주소</label><input type="text" id="lt-receiver-addr" placeholder="임대인 주소 (등기부등본 참고)"></div>
+          </div>
+          <div class="card" style="box-shadow:none;padding:0;margin-top:20px">
+            <h3 style="margin-bottom:16px">🏠 임대차 계약 정보</h3>
+            <div class="input-group"><label>임대 물건 소재지</label><input type="text" id="lt-property" placeholder="서울특별시 강남구 역삼동 123-45, 101호"></div>
+            <div class="input-row">
+              <div class="input-group"><label>보증금 금액</label><div class="input-suffix"><input type="number" id="lt-deposit" placeholder="5000" inputmode="numeric"><span>만원</span></div></div>
+              <div class="input-group"><label>월세 (없으면 빈칸)</label><div class="input-suffix"><input type="number" id="lt-monthly" placeholder="50" inputmode="numeric"><span>만원</span></div></div>
+            </div>
+            <div class="input-row">
+              <div class="input-group"><label>계약 시작일</label><input type="date" id="lt-start-date"></div>
+              <div class="input-group"><label>계약 만료일</label><input type="date" id="lt-end-date"></div>
+            </div>
+            <div class="input-group">
+              <label>반환 요구 사유</label>
+              <select id="lt-reason">
+                <option value="expire">계약 만료에 따른 보증금 반환 청구</option>
+                <option value="silent">묵시적 갱신 후 해지 통보에 따른 반환 청구</option>
+                <option value="overdue">계약 만료 후 보증금 미반환에 대한 반환 청구</option>
+                <option value="owner_change">소유자 변경에 따른 보증금 반환 청구</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>반환 계좌 (선택)</label>
+              <input type="text" id="lt-account" placeholder="은행명 / 계좌번호 / 예금주">
+            </div>
+          </div>
+          <button class="btn btn-primary" style="margin-top:20px" onclick="generatePreview()">📄 미리보기 생성</button>
+        </div>
+
+        <div class="tab-content" id="tab-preview">
+          <div id="letterPreviewArea"></div>
+          <div class="btn-row" style="margin-top:16px">
+            <button class="btn btn-outline" onclick="switchTab('input')">← 수정하기</button>
+            <button class="btn btn-primary" onclick="downloadPDF()">📥 PDF 다운로드</button>
+          </div>
+          <div class="info-box" style="margin-top:12px">📮 <strong>발송 방법:</strong> PDF를 A4로 인쇄 → 3부 작성 → 우체국 방문하여 내용증명 접수 (약 5,000원) 또는 인터넷우체국(epost.go.kr)에서 온라인 발송</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -510,12 +606,12 @@ ${dateStr}
     </div>
   </div>`;
 
-  // CTA
+  // CTA - 내용증명 자동 생성 (무료)
   html += `<div class="cta-box no-print">
-    <h3>📄 상세 가이드 + 내용증명 자동생성</h3>
-    <p>내 정보를 입력하면 바로 출력 가능한 내용증명 PDF를 생성해드립니다.<br>+ 단계별 상세 체크리스트 포함</p>
-    <div class="price" style="margin-bottom:12px">9,900원</div>
-    <a class="btn" href="https://payhip.com/" target="_blank" rel="noopener">상세 가이드 받기 →</a>
+    <h3>📝 내용증명 자동 생성기</h3>
+    <p>내 정보를 입력하면 법적 형식에 맞는 내용증명서를 자동으로 생성합니다.<br>PDF로 다운로드 → 인쇄 → 우체국 접수</p>
+    <div class="price" style="margin-bottom:12px">무료</div>
+    <button class="btn" onclick="openLetter()">내용증명 작성하기 →</button>
   </div>`;
 
   // Email
@@ -534,13 +630,186 @@ ${dateStr}
 
 function submitEmail(e) {
   e.preventDefault();
-  // In production, connect to Buttondown/Google Forms API
   document.getElementById('emailMsg').style.display = 'block';
   e.target.querySelector('input').disabled = true;
   e.target.querySelector('button').disabled = true;
 }
+
+// ─── 내용증명 자동 생성 ───
+function openLetter() {
+  const modal = document.getElementById('letterModal');
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  // Pre-fill from diagnosis data
+  if (D.deposit) document.getElementById('lt-deposit').value = D.deposit;
+  if (D.endDate) document.getElementById('lt-end-date').value = D.endDate;
+  if (D.situation === 'silent_renew') document.getElementById('lt-reason').value = 'silent';
+  else if (D.situation === 'after_expire') document.getElementById('lt-reason').value = 'overdue';
+  else if (D.situation === 'new_owner') document.getElementById('lt-reason').value = 'owner_change';
+  else document.getElementById('lt-reason').value = 'expire';
+}
+
+function closeLetter() {
+  document.getElementById('letterModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function switchTab(id) {
+  document.querySelectorAll('.modal-tab').forEach((t,i) => t.classList.toggle('active', (id==='input'?i===0:i===1)));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+function fmtDate(dateStr) {
+  if (!dateStr) return '____년 __월 __일';
+  const d = new Date(dateStr);
+  return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`;
+}
+
+function fmtMoney(man) {
+  if (!man) return '____';
+  const n = parseInt(man);
+  if (n >= 10000) return (n/10000).toFixed(n%10000?1:0)+'억원';
+  return n.toLocaleString()+'만원';
+}
+
+function numToKorean(n) {
+  const units = ['','일','이','삼','사','오','육','칠','팔','구'];
+  const places = ['','십','백','천'];
+  const bigs = ['','만','억'];
+  if (n === 0) return '영';
+  let result = '';
+  let bigIdx = 0;
+  while (n > 0) {
+    const chunk = n % 10000;
+    if (chunk > 0) {
+      let s = '';
+      let c = chunk;
+      for (let i = 0; i < 4; i++) {
+        const d = c % 10;
+        if (d > 0) s = (d===1 && i>0 ? '' : units[d]) + places[i] + s;
+        c = Math.floor(c / 10);
+      }
+      result = s + bigs[bigIdx] + result;
+    }
+    n = Math.floor(n / 10000);
+    bigIdx++;
+  }
+  return result;
+}
+
+function generatePreview() {
+  const v = {
+    sName: document.getElementById('lt-sender-name').value || '(임차인 성명)',
+    sPhone: document.getElementById('lt-sender-phone').value || '',
+    sAddr: document.getElementById('lt-sender-addr').value || '(임차인 주소)',
+    rName: document.getElementById('lt-receiver-name').value || '(임대인 성명)',
+    rPhone: document.getElementById('lt-receiver-phone').value || '',
+    rAddr: document.getElementById('lt-receiver-addr').value || '(임대인 주소)',
+    property: document.getElementById('lt-property').value || '(임대 물건 소재지)',
+    deposit: document.getElementById('lt-deposit').value,
+    monthly: document.getElementById('lt-monthly').value,
+    startDate: document.getElementById('lt-start-date').value,
+    endDate: document.getElementById('lt-end-date').value,
+    reason: document.getElementById('lt-reason').value,
+    account: document.getElementById('lt-account').value
+  };
+
+  if (!v.sName.includes('(') && !v.rName.includes('(') && !v.property.includes('(') && v.deposit) {
+    // OK
+  } else if (!v.deposit) {
+    alert('보증금 금액을 입력해주세요.');
+    return;
+  }
+
+  const depMan = parseInt(v.deposit) || 0;
+  const depWon = depMan * 10000;
+  const depStr = fmtMoney(depMan);
+  const depKor = numToKorean(depWon) + '원';
+  const monthlyStr = v.monthly ? fmtMoney(parseInt(v.monthly)) : null;
+  const contractType = monthlyStr ? `보증금 ${depStr}, 월 차임 ${monthlyStr}` : `보증금 ${depStr}`;
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일`;
+
+  const reasonTitles = {
+    expire: '임대차 보증금 반환 청구의 건',
+    silent: '묵시적 갱신 해지 및 보증금 반환 청구의 건',
+    overdue: '임대차 보증금 반환 청구의 건 (만료 후 미반환)',
+    owner_change: '소유자 변경에 따른 보증금 반환 청구의 건'
+  };
+
+  let bodyParagraphs = [];
+
+  bodyParagraphs.push(`본인(발신인)은 귀하(수신인)와 아래 부동산에 대하여 임대차 계약을 체결한 임차인입니다.`);
+  bodyParagraphs.push(`<strong>- 임대 물건:</strong> ${v.property}<br><strong>- 계약 조건:</strong> ${contractType}<br><strong>- 계약 기간:</strong> ${fmtDate(v.startDate)} ~ ${fmtDate(v.endDate)}`);
+
+  if (v.reason === 'expire') {
+    bodyParagraphs.push(`위 임대차 계약은 ${fmtDate(v.endDate)}에 만료될 예정이며, 본인은 계약을 갱신할 의사가 없음을 통보합니다.`);
+    bodyParagraphs.push(`이에 계약 만료일에 보증금 ${depStr}(금 ${depKor})을 전액 반환하여 주시기 바랍니다.`);
+  } else if (v.reason === 'silent') {
+    bodyParagraphs.push(`위 임대차 계약은 기간 만료 후 묵시적으로 갱신된 상태입니다.`);
+    bodyParagraphs.push(`주택임대차보호법 제6조의3 제3항에 의거, 본인은 위 임대차 계약의 해지를 통보합니다. 본 통보일로부터 3개월이 경과한 날에 계약이 종료되며, 해당일에 보증금 ${depStr}(금 ${depKor})을 반환하여 주시기 바랍니다.`);
+  } else if (v.reason === 'overdue') {
+    bodyParagraphs.push(`위 임대차 계약은 ${fmtDate(v.endDate)}에 이미 만료되었으나, 현재까지 보증금을 반환받지 못하고 있습니다.`);
+    bodyParagraphs.push(`주택임대차보호법에 의거, 보증금 반환 지연 시 연 5%의 지연손해금이 발생함을 알려드립니다.`);
+    bodyParagraphs.push(`본 내용증명 수령일로부터 14일 이내에 보증금 ${depStr}(금 ${depKor}) 전액을 반환하여 주시기 바랍니다.`);
+  } else if (v.reason === 'owner_change') {
+    bodyParagraphs.push(`위 임대 물건의 소유자가 변경되었으며, 주택임대차보호법 제3조에 의거 새로운 소유자인 귀하가 임대인의 지위를 승계하였으므로 보증금 반환 의무가 귀하에게 있습니다.`);
+    bodyParagraphs.push(`계약 만료(예정)일에 보증금 ${depStr}(금 ${depKor})을 반환하여 주시기 바랍니다.`);
+  }
+
+  if (v.account) {
+    bodyParagraphs.push(`<strong>반환 계좌:</strong> ${v.account}`);
+  }
+
+  bodyParagraphs.push(`만일 위 기한 내 보증금을 반환하지 않을 경우, 부득이 임차권등기명령 신청, 보증금반환 청구 소송 등 관련 법적 절차를 진행할 수밖에 없음을 통보합니다.`);
+
+  const html = `<div class="letter-preview" id="letterPDF">
+    <h2>내 용 증 명</h2>
+    <div class="letter-section">
+      <div><span class="letter-label">발신인:</span> ${v.sName}${v.sPhone?' ('+v.sPhone+')':''}</div>
+      <div style="padding-left:4.5em">${v.sAddr}</div>
+    </div>
+    <div class="letter-section">
+      <div><span class="letter-label">수신인:</span> ${v.rName}${v.rPhone?' ('+v.rPhone+')':''}</div>
+      <div style="padding-left:4.5em">${v.rAddr}</div>
+    </div>
+    <hr style="border:none;border-top:1px solid #333;margin:20px 0">
+    <div style="text-align:center;font-weight:700;font-size:15px;margin:24px 0">제목: ${reasonTitles[v.reason]}</div>
+    <div class="letter-body">
+      ${bodyParagraphs.map((p,i) => `<p>${i+2<=bodyParagraphs.length ? (i+1)+'. ':''} ${p}</p>`).join('')}
+    </div>
+    <hr style="border:none;border-top:1px solid #333;margin:20px 0">
+    <div class="letter-date">${todayStr}</div>
+    <div class="letter-sign">
+      <div>발신인: ${v.sName} (서명 또는 인)</div>
+    </div>
+  </div>`;
+
+  document.getElementById('letterPreviewArea').innerHTML = html;
+  switchTab('preview');
+}
+
+function downloadPDF() {
+  const el = document.getElementById('letterPDF');
+  if (!el) { alert('먼저 미리보기를 생성해주세요.'); return; }
+  const opt = {
+    margin: [10, 15, 10, 15],
+    filename: '내용증명_보증금반환청구.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(el).save();
+}
+
+// Close modal on overlay click
+document.getElementById('letterModal').addEventListener('click', function(e) {
+  if (e.target === this) closeLetter();
+});
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <!-- JSON-LD for SEO -->
 <script type="application/ld+json">
 {
