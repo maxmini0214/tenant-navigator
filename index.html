@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>임차인 권리 진단 | 전세·월세 보증금 반환 가이드</title>
+<meta name="description" content="전세 보증금 반환, 월세 보증금 못 받을 때, 집주인 연락 안될 때 — 3분 안에 내 상황을 진단하고 해야 할 절차를 확인하세요.">
+<meta name="keywords" content="전세 보증금 반환, 월세 보증금 못 받을 때, 집주인 연락 안될 때, 임차권등기명령, 내용증명, 보증금 반환 소송, 소액사건심판, 묵시적갱신, 임대차보호법">
+<meta property="og:title" content="임차인 권리 진단 — 보증금 돌려받는 법">
+<meta property="og:description" content="3분 진단으로 내 상황에 맞는 보증금 반환 절차를 확인하세요. 무료.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://maxmini0214.github.io/tenant-navigator/">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#1a2744;--blue:#2563eb;--blue-light:#dbeafe;--blue-50:#eff6ff;--gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-400:#94a3b8;--gray-600:#475569;--gray-800:#1e293b;--green:#059669;--orange:#d97706;--red:#dc2626;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans KR',sans-serif;background:var(--gray-50);color:var(--gray-800);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:640px;margin:0 auto;padding:16px;min-height:100vh}
+header{text-align:center;padding:32px 0 24px}
+header h1{font-size:1.5rem;color:var(--navy);margin-bottom:4px}
+header p{color:var(--gray-600);font-size:.9rem}
+.badge{display:inline-block;background:var(--blue-light);color:var(--blue);font-size:.75rem;font-weight:600;padding:2px 10px;border-radius:99px;margin-bottom:12px}
+
+/* Progress */
+.progress{display:flex;gap:6px;margin-bottom:24px}
+.progress-dot{flex:1;height:4px;border-radius:2px;background:var(--gray-200);transition:background .3s}
+.progress-dot.active{background:var(--blue)}
+.progress-dot.done{background:var(--green)}
+
+/* Card */
+.card{background:#fff;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:16px}
+.card h2{font-size:1.15rem;margin-bottom:16px;color:var(--navy)}
+.card h3{font-size:1rem;margin-bottom:8px;color:var(--navy)}
+
+/* Options */
+.options{display:flex;flex-direction:column;gap:10px}
+.opt-btn{display:flex;align-items:center;gap:12px;padding:14px 16px;border:2px solid var(--gray-200);border-radius:var(--radius);background:#fff;font-size:.95rem;color:var(--gray-800);cursor:pointer;transition:all .2s;text-align:left}
+.opt-btn:hover,.opt-btn:focus{border-color:var(--blue);background:var(--blue-50)}
+.opt-btn.selected{border-color:var(--blue);background:var(--blue-light)}
+.opt-btn .icon{font-size:1.4rem;flex-shrink:0}
+.opt-btn .label{font-weight:600}
+.opt-btn .desc{font-size:.8rem;color:var(--gray-600);margin-top:2px}
+
+/* Input */
+.input-group{margin-bottom:16px}
+.input-group label{display:block;font-weight:600;margin-bottom:6px;font-size:.9rem}
+.input-group input,.input-group select{width:100%;padding:12px 14px;border:2px solid var(--gray-200);border-radius:var(--radius);font-size:1rem;transition:border .2s}
+.input-group input:focus,.input-group select:focus{outline:none;border-color:var(--blue)}
+.input-suffix{position:relative}
+.input-suffix input{padding-right:40px}
+.input-suffix span{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--gray-400);font-size:.9rem}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:14px 24px;border-radius:var(--radius);font-size:1rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;width:100%}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#1d4ed8}
+.btn-primary:disabled{background:var(--gray-200);color:var(--gray-400);cursor:not-allowed}
+.btn-outline{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn-outline:hover{background:var(--blue-50)}
+.btn-sm{padding:10px 16px;font-size:.85rem}
+.btn-row{display:flex;gap:10px;margin-top:20px}
+.btn-row .btn{flex:1}
+
+/* Result */
+.result-header{text-align:center;padding:20px 0}
+.result-header .emoji{font-size:2.5rem;margin-bottom:8px}
+.result-header h2{color:var(--navy);font-size:1.3rem}
+.result-header .summary{color:var(--gray-600);font-size:.9rem;margin-top:6px}
+
+.timeline{position:relative;padding-left:28px;margin:16px 0}
+.timeline::before{content:'';position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:var(--gray-200)}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid var(--blue);background:#fff}
+.tl-item.urgent .tl-dot{background:var(--red);border-color:var(--red)}
+.tl-item.done .tl-dot{background:var(--green);border-color:var(--green)}
+.tl-when{font-size:.75rem;font-weight:600;color:var(--blue);text-transform:uppercase;margin-bottom:2px}
+.tl-item.urgent .tl-when{color:var(--red)}
+.tl-title{font-weight:600;font-size:.95rem;margin-bottom:2px}
+.tl-desc{font-size:.85rem;color:var(--gray-600)}
+
+.info-box{background:var(--blue-50);border-left:3px solid var(--blue);padding:12px 14px;border-radius:0 var(--radius) var(--radius) 0;margin:12px 0;font-size:.85rem}
+.info-box.warn{background:#fef3c7;border-color:var(--orange)}
+.info-box.danger{background:#fef2f2;border-color:var(--red)}
+
+.sample-letter{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius);padding:16px;font-size:.82rem;white-space:pre-wrap;line-height:1.7;margin:12px 0;font-family:'Noto Sans KR',sans-serif}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,var(--navy),#2d4a7a);color:#fff;border-radius:var(--radius);padding:24px;text-align:center;margin:20px 0}
+.cta-box h3{font-size:1.1rem;margin-bottom:8px}
+.cta-box p{font-size:.85rem;opacity:.9;margin-bottom:16px}
+.cta-box .btn{background:#fff;color:var(--navy);width:auto;display:inline-flex}
+.cta-box .price{font-size:1.2rem;font-weight:700}
+
+/* Email */
+.email-box{background:#fff;border:2px dashed var(--gray-200);border-radius:var(--radius);padding:20px;text-align:center;margin:16px 0}
+.email-box p{font-size:.85rem;color:var(--gray-600);margin-bottom:12px}
+.email-row{display:flex;gap:8px}
+.email-row input{flex:1}
+.email-row .btn{width:auto;white-space:nowrap}
+
+/* Footer / Disclaimer */
+.disclaimer{background:var(--gray-100);border-radius:var(--radius);padding:14px;font-size:.75rem;color:var(--gray-600);margin:20px 0;line-height:1.6}
+footer{text-align:center;padding:24px 0;font-size:.75rem;color:var(--gray-400)}
+
+/* Print */
+@media print{
+  body{background:#fff}
+  .btn,.cta-box,.email-box,.no-print{display:none!important}
+  .card{box-shadow:none;border:1px solid #ddd}
+  .container{max-width:100%}
+}
+
+/* Hide steps */
+.step{display:none}
+.step.active{display:block}
+
+/* Animations */
+.step.active{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="badge">무료 진단</div>
+    <h1>🏠 임차인 권리 진단</h1>
+    <p>3분 안에 내 상황 파악하고, 해야 할 일 확인하기</p>
+  </header>
+
+  <div class="progress" id="progress">
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+  </div>
+
+  <!-- Step 1: 보증금 종류 -->
+  <div class="step active" id="step1">
+    <div class="card">
+      <h2>① 보증금 종류를 선택하세요</h2>
+      <div class="options">
+        <button class="opt-btn" onclick="select(1,'type','jeonse')">
+          <span class="icon">🏦</span>
+          <div><div class="label">전세 보증금</div><div class="desc">전세 계약으로 큰 금액을 맡긴 경우</div></div>
+        </button>
+        <button class="opt-btn" onclick="select(1,'type','wolse')">
+          <span class="icon">💰</span>
+          <div><div class="label">월세 보증금</div><div class="desc">월세 계약의 보증금을 돌려받아야 하는 경우</div></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: 현재 상황 -->
+  <div class="step" id="step2">
+    <div class="card">
+      <h2>② 현재 상황을 선택하세요</h2>
+      <div class="options" id="situations"></div>
+    </div>
+    <div class="btn-row no-print">
+      <button class="btn btn-outline btn-sm" onclick="goStep(1)">← 이전</button>
+    </div>
+  </div>
+
+  <!-- Step 3: 상세 정보 -->
+  <div class="step" id="step3">
+    <div class="card">
+      <h2>③ 상세 정보를 입력하세요</h2>
+      <div class="input-group">
+        <label>보증금 금액</label>
+        <div class="input-suffix">
+          <input type="number" id="deposit" placeholder="예: 5000" inputmode="numeric">
+          <span>만원</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>계약 만료일 (선택)</label>
+        <input type="date" id="endDate">
+      </div>
+      <div class="input-group">
+        <label>전입신고 여부</label>
+        <div class="options" style="flex-direction:row;gap:8px">
+          <button class="opt-btn" style="flex:1;justify-content:center" onclick="selectInline(this,'move','yes')">✅ 했음</button>
+          <button class="opt-btn" style="flex:1;justify-content:center" onclick="selectInline(this,'move','no')">❌ 안 했음</button>
+          <button class="opt-btn" style="flex:1;justify-content:center" onclick="selectInline(this,'move','unknown')">🤔 모름</button>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>확정일자 여부</label>
+        <div class="options" style="flex-direction:row;gap:8px">
+          <button class="opt-btn" style="flex:1;justify-content:center" onclick="selectInline(this,'confirm','yes')">✅ 받음</button>
+          <button class="opt-btn" style="flex:1;justify-content:center" onclick="selectInline(this,'confirm','no')">❌ 안 받음</button>
+          <button class="opt-btn" style="flex:1;justify-content:center" onclick="selectInline(this,'confirm','unknown')">🤔 모름</button>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="diagnose()">🔍 진단 결과 보기</button>
+    </div>
+    <div class="btn-row no-print">
+      <button class="btn btn-outline btn-sm" onclick="goStep(2)">← 이전</button>
+    </div>
+  </div>
+
+  <!-- Step 4: 결과 -->
+  <div class="step" id="step4">
+    <div id="resultContent"></div>
+    <div class="btn-row no-print" style="margin-top:16px">
+      <button class="btn btn-outline btn-sm" onclick="goStep(1);resetAll()">🔄 처음부터 다시</button>
+      <button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ <strong>법률 자문 면책</strong><br>
+    이 서비스는 법률 자문이 아닙니다. 주택임대차보호법 등 관련 법령에 기반한 일반적인 정보 제공을 목적으로 하며, 개별 사안의 법적 판단을 대신하지 않습니다. 정확한 법률 상담은 변호사 또는 대한법률구조공단(☎ 132)에 문의하시기 바랍니다.
+  </div>
+
+  <footer>
+    © 2026 임차인 권리 진단 · <a href="https://www.law.go.kr" target="_blank" style="color:var(--gray-400)">관련 법령 확인</a>
+  </footer>
+</div>
+
+<script>
+const D = {};
+const situations = {
+  jeonse: [
+    {id:'before_expire',icon:'📅',label:'계약 만료 전',desc:'만료일이 다가오는데 보증금 반환이 걱정됨'},
+    {id:'after_expire',icon:'⏰',label:'계약 만료 후 미반환',desc:'만료됐는데 보증금을 안 돌려줌'},
+    {id:'silent_renew',icon:'🔄',label:'묵시적 갱신 상태',desc:'계약이 자동 연장된 상태에서 나가고 싶음'},
+    {id:'no_contact',icon:'📵',label:'집주인 연락 두절',desc:'연락이 안 되거나 회피하는 상황'},
+    {id:'auction',icon:'⚖️',label:'경매·압류 위험',desc:'집이 경매에 넘어갈 수 있다는 소식을 들음'},
+    {id:'new_owner',icon:'🏢',label:'집주인이 바뀜',desc:'매매로 소유자가 변경됨'}
+  ],
+  wolse: [
+    {id:'before_expire',icon:'📅',label:'계약 만료 전',desc:'곧 만료인데 보증금 반환이 걱정됨'},
+    {id:'after_expire',icon:'⏰',label:'계약 만료 후 미반환',desc:'이사 나왔는데 보증금을 안 줌'},
+    {id:'silent_renew',icon:'🔄',label:'묵시적 갱신 상태',desc:'계약이 자동 연장됐고 이제 나가고 싶음'},
+    {id:'no_contact',icon:'📵',label:'집주인 연락 두절',desc:'전화·문자 다 씹힘'},
+    {id:'deduction',icon:'🔧',label:'원상복구·공제 분쟁',desc:'수리비 등을 과도하게 공제하겠다고 함'}
+  ]
+};
+
+function select(step, key, val) {
+  D[key] = val;
+  document.querySelectorAll(`#step${step} .opt-btn`).forEach(b => b.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  setTimeout(() => {
+    if (step === 1) { renderSituations(); goStep(2); }
+    else if (step === 2) goStep(3);
+  }, 200);
+}
+
+function selectInline(el, key, val) {
+  D[key] = val;
+  el.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function renderSituations() {
+  const box = document.getElementById('situations');
+  box.innerHTML = '';
+  (situations[D.type] || []).forEach(s => {
+    box.innerHTML += `<button class="opt-btn" onclick="select(2,'situation','${s.id}')">
+      <span class="icon">${s.icon}</span>
+      <div><div class="label">${s.label}</div><div class="desc">${s.desc}</div></div>
+    </button>`;
+  });
+}
+
+function goStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  document.querySelectorAll('.progress-dot').forEach((d, i) => {
+    d.className = 'progress-dot' + (i < n - 1 ? ' done' : i === n - 1 ? ' active' : '');
+  });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function resetAll() { for (let k in D) delete D[k]; }
+
+function fmt(n) { return n >= 10000 ? (n/10000).toFixed(n%10000?1:0)+'억' : n.toLocaleString()+'만'; }
+
+function diagnose() {
+  const dep = parseInt(document.getElementById('deposit').value) || 0;
+  const endDate = document.getElementById('endDate').value;
+  D.deposit = dep;
+  D.endDate = endDate;
+  if (!dep) { alert('보증금 금액을 입력해주세요.'); return; }
+
+  const typeName = D.type === 'jeonse' ? '전세' : '월세';
+  const isSmall = dep <= 5000; // 소액사건심판 가능 기준 (간이)
+  const moveIn = D.move === 'yes';
+  const confirmed = D.confirm === 'yes';
+  const sit = D.situation;
+  const depStr = fmt(dep);
+  const dailyInterest = Math.round(dep * 10000 * 0.05 / 365);
+
+  let emoji = '📋', title = '', summary = '', timeline = [], extras = [], letterSample = '';
+
+  // 공통 내용증명 샘플
+  const today = new Date();
+  const dateStr = `${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일`;
+  const baseAddr = '[임대 물건 주소]';
+
+  function makeLetter(body) {
+    return `내 용 증 명
+
+발신인: [임차인 성명] / [임차인 주소]
+수신인: [임대인 성명] / [임대인 주소]
+
+제목: ${typeName} 보증금 ${depStr}원 반환 청구
+
+${body}
+
+${dateStr}
+발신인: [임차인 성명] (인)`;
+  }
+
+  // 상황별 로직
+  if (sit === 'before_expire') {
+    emoji = '📅';
+    title = '계약 만료 전 — 미리 준비하세요';
+    summary = `${typeName} 보증금 ${depStr}원, 만료 전 선제 대응이 핵심입니다.`;
+    timeline = [
+      {when:'만료 6개월~2개월 전',title:'갱신 여부 통보 확인',desc:'임대인이 갱신 거절 통보를 했는지 확인. 안 했으면 묵시적 갱신될 수 있음.',urgent:false},
+      {when:'만료 2개월 전',title:'보증금 반환 요구 내용증명 발송',desc:'내용증명으로 반환 의사를 공식 통보하세요. 증거 확보가 핵심.',urgent:true},
+      {when:'만료 1개월 전',title:'이사 준비 + 원상복구',desc:'이사 날짜 확정, 원상복구 범위 사전 협의.'},
+      {when:'만료일',title:'보증금 수령 + 이사',desc:'동시이행 관계 — 보증금 받기 전에 이사하면 불리해질 수 있습니다.',urgent:true},
+      {when:'만료일 이후',title:'미반환 시 → 다음 단계',desc:'지연이자 연 5% 발생. 임차권등기명령 신청 검토.'}
+    ];
+    letterSample = makeLetter(`1. 본인은 귀하와 ${baseAddr}에 대하여 ${typeName} 임대차 계약을 체결한 임차인입니다.
+
+2. 위 임대차 계약은 [만료일]에 만료될 예정이며, 본인은 계약 갱신 의사가 없음을 통보합니다.
+
+3. 이에 계약 만료일에 ${typeName} 보증금 ${depStr}원(${dep}0,000원)을 반환하여 주시기 바랍니다.
+
+4. 만일 기한 내 반환하지 않을 경우, 주택임대차보호법에 따른 법적 조치(임차권등기명령, 보증금반환 소송 등)를 진행할 수밖에 없음을 알려드립니다.`);
+  }
+  else if (sit === 'after_expire') {
+    emoji = '🚨';
+    title = '계약 만료 후 미반환 — 즉시 행동하세요';
+    summary = `지체 중인 보증금 ${depStr}원에 대해 연 5%의 지연이자(1일 약 ${dailyInterest.toLocaleString()}원)가 발생합니다.`;
+    timeline = [
+      {when:'즉시',title:'내용증명 발송 (등기우편)',desc:'우체국 방문 또는 인터넷 내용증명. 14일 이내 반환 요구.',urgent:true},
+      {when:'14일 경과 후',title:'임차권등기명령 신청',desc:'관할 법원에 신청 → 대항력·우선변제권 유지하면서 이사 가능.',urgent:true},
+      {when:'임차권등기 후',title:'이사 진행',desc:'등기 완료 확인 후 이사해도 권리 유지됩니다.'},
+      {when:'1~2개월 내',title:isSmall?'소액사건심판 신청':'보증금 반환 소송 제기',desc:isSmall?`보증금 ${depStr}원은 소액사건심판 대상. 변호사 없이도 가능.`:'지방법원에 보증금 반환 청구 소송. 변호사 선임 권장.'},
+      {when:'판결 후',title:'강제집행',desc:'판결문으로 재산 압류·경매 가능.'}
+    ];
+    if (!moveIn) {
+      extras.push({type:'danger',text:'⚠️ 전입신고를 안 하셨다면 대항력이 없을 수 있습니다. 현재 주소지 전입 여부를 주민센터에서 반드시 확인하세요.'});
+    }
+    letterSample = makeLetter(`1. 본인은 귀하와 ${baseAddr}에 대하여 ${typeName} 임대차 계약을 체결한 임차인입니다.
+
+2. 위 임대차 계약은 이미 [만료일]에 만료되었으나, 현재까지 보증금 ${depStr}원(${dep}0,000원)을 반환받지 못하고 있습니다.
+
+3. 주택임대차보호법 제3조의2 제2항에 의거, 보증금 반환 지연 시 연 5%의 지연손해금이 발생함을 알려드립니다.
+
+4. 본 내용증명 수령일로부터 14일 이내에 위 보증금 전액을 아래 계좌로 반환하여 주시기 바랍니다.
+   - 은행: [은행명] / 계좌번호: [계좌번호] / 예금주: [임차인 성명]
+
+5. 기한 내 미반환 시 임차권등기명령 신청 및 보증금반환 소송 등 법적 절차를 진행하겠습니다.`);
+  }
+  else if (sit === 'silent_renew') {
+    emoji = '🔄';
+    title = '묵시적 갱신 — 해지통보 후 3개월';
+    summary = `묵시적 갱신 상태에서는 해지 통보 후 3개월이 지나야 계약이 종료됩니다.`;
+    timeline = [
+      {when:'즉시',title:'해지 통보 내용증명 발송',desc:'임차인은 언제든 해지 통보 가능. 통보일로부터 3개월 후 효력 발생.',urgent:true},
+      {when:'통보 후 3개월',title:'계약 종료 + 보증금 반환일',desc:'이 날짜에 보증금 반환 + 이사를 동시에 진행.'},
+      {when:'반환 안 될 경우',title:'내용증명 → 임차권등기명령',desc:'만료 후 미반환과 동일한 절차로 진행.'}
+    ];
+    extras.push({type:'info',text:'💡 묵시적 갱신 = 종전과 동일 조건으로 2년 갱신된 것으로 봅니다. 단, 임차인은 언제든 해지 통보할 수 있고, 통보 후 3개월이면 계약 종료됩니다. (주택임대차보호법 제6조의3)'});
+    letterSample = makeLetter(`1. 본인은 귀하와 ${baseAddr}에 대하여 ${typeName} 임대차 계약을 체결한 임차인입니다.
+
+2. 위 계약은 기간 만료 후 묵시적으로 갱신된 상태입니다.
+
+3. 주택임대차보호법 제6조의3 제3항에 의거, 본인은 위 임대차 계약의 해지를 통보합니다.
+
+4. 본 통보일로부터 3개월이 경과한 날에 계약이 종료되며, 해당일에 보증금 ${depStr}원(${dep}0,000원)을 반환하여 주시기 바랍니다.
+
+5. 기한 내 미반환 시 법적 조치를 진행할 수밖에 없음을 알려드립니다.`);
+  }
+  else if (sit === 'no_contact') {
+    emoji = '📵';
+    title = '집주인 연락 두절 — 법적 절차로 전환';
+    summary = '연락이 안 되면 내용증명이 더 중요합니다. 서면 기록이 법적 증거가 됩니다.';
+    timeline = [
+      {when:'즉시',title:'내용증명 발송 (등기우편)',desc:'임대인 등기부등본상 주소로 발송. 수취 거부해도 법적 효력 있음.',urgent:true},
+      {when:'동시 진행',title:'등기부등본 확인',desc:'인터넷등기소에서 해당 부동산 등기부등본 열람 → 근저당, 가압류 등 확인.',urgent:true},
+      {when:'14일 경과',title:'임차권등기명령 신청',desc:'관할 법원에 신청. 집주인 동의 불필요. 단독으로 가능.'},
+      {when:'이후',title:'보증금 반환 소송',desc:'소장 부본은 법원이 공시송달 가능 → 연락 두절이어도 재판 진행됨.'}
+    ];
+    extras.push({type:'warn',text:'📌 집주인 연락두절 시 꼭 확인하세요: ① 부동산 등기부등본 열람 (경매·압류 여부) ② 국세·지방세 체납 여부는 세무서에서 확인 불가 → 등기부등본의 근저당·가압류로 간접 파악'});
+    letterSample = makeLetter(`1. 본인은 귀하와 ${baseAddr}에 대하여 ${typeName} 임대차 계약을 체결한 임차인입니다.
+
+2. 계약 만료(예정)일 [만료일]이 도래하였으나(도래할 예정이나), 귀하와 연락이 되지 않아 부득이 내용증명으로 통보합니다.
+
+3. 보증금 ${depStr}원(${dep}0,000원)을 아래 계좌로 반환하여 주시기 바랍니다.
+   - 은행: [은행명] / 계좌번호: [계좌번호] / 예금주: [임차인 성명]
+
+4. 본 내용증명 수령일로부터 14일 이내에 반환되지 않을 경우, 임차권등기명령 및 보증금반환 소송 등 법적 절차를 즉시 진행하겠습니다.`);
+  }
+  else if (sit === 'auction') {
+    emoji = '⚖️';
+    title = '경매·압류 위험 — 권리 보전이 급합니다';
+    summary = '대항력과 확정일자가 있다면 보호받을 수 있습니다. 없다면 즉시 조치가 필요합니다.';
+    timeline = [
+      {when:'즉시',title:'등기부등본 열람',desc:'인터넷등기소(iros.go.kr)에서 해당 물건 등기부등본 확인. 경매개시결정, 가압류 등 확인.',urgent:true},
+      {when:'즉시',title:'대항력·우선변제권 확인',desc:'전입신고일 + 확정일자 vs 근저당 설정일 비교. 선순위면 보호됨.',urgent:true},
+      {when:'경매 진행 시',title:'배당요구',desc:'배당요구 종기일 전에 법원에 배당요구서 제출. 놓치면 배당 못 받음!',urgent:true},
+      {when:'이후',title:'배당기일 출석',desc:'법원에서 배당표에 따라 보증금 수령.'}
+    ];
+    if (!moveIn || !confirmed) {
+      extras.push({type:'danger',text:'🚨 전입신고 또는 확정일자가 없다면 경매에서 보증금을 돌려받지 못할 위험이 큽니다. 즉시 법률 상담을 받으세요. (대한법률구조공단 ☎ 132)'});
+    }
+    extras.push({type:'info',text:'💡 소액임차인 최우선변제: 서울 기준 보증금 1억 6,500만원 이하이고 전입신고가 되어 있으면, 확정일자 없이도 경매 시 5,500만원까지 최우선으로 변제받을 수 있습니다. (지역별 금액 다름)'});
+  }
+  else if (sit === 'new_owner') {
+    emoji = '🏢';
+    title = '집주인 변경 — 새 집주인에게 반환 청구';
+    summary = '대항력이 있다면 새 소유자가 보증금 반환 의무를 승계합니다.';
+    timeline = [
+      {when:'즉시',title:'등기부등본으로 새 소유자 확인',desc:'새 집주인의 이름·주소를 등기부등본에서 확인.',urgent:true},
+      {when:'즉시',title:'대항력 확인',desc:'전입신고일이 소유권 이전일보다 앞서면 대항력 있음.',urgent:true},
+      {when:'확인 후',title:'새 집주인에게 내용증명 발송',desc:'보증금 반환 의무 승계를 통보하고 반환 요구.'},
+      {when:'미반환 시',title:'임차권등기명령 + 소송',desc:'새 집주인 상대로 법적 절차 진행.'}
+    ];
+    if (moveIn) {
+      extras.push({type:'info',text:'✅ 전입신고가 되어 있다면, 소유자가 변경되어도 새 집주인이 보증금 반환 의무를 집니다. (주택임대차보호법 제3조)'});
+    } else {
+      extras.push({type:'danger',text:'⚠️ 전입신고가 안 되어 있으면 새 집주인에게 대항할 수 없을 수 있습니다. 즉시 법률 상담을 받으세요.'});
+    }
+  }
+  else if (sit === 'deduction') {
+    emoji = '🔧';
+    title = '원상복구·공제 분쟁 — 과도한 공제는 거부 가능';
+    summary = '자연 마모·경년 변화는 임차인 부담이 아닙니다. 과도한 공제에는 법적으로 대응할 수 있습니다.';
+    timeline = [
+      {when:'즉시',title:'입주 시 사진·체크리스트 확인',desc:'입주 당시 상태를 기록한 자료가 있다면 강력한 증거.',urgent:false},
+      {when:'즉시',title:'공제 항목 서면 요청',desc:'어떤 항목에서 얼마를 공제하는지 서면(문자·카톡)으로 요구.',urgent:true},
+      {when:'협의 결렬 시',title:'내용증명 발송',desc:'과도한 공제를 거부하고 보증금 전액 반환 청구.'},
+      {when:'이후',title:'소액사건심판 또는 민사소송',desc:'공제 범위에 대한 분쟁은 법원에서 판단.'}
+    ];
+    extras.push({type:'info',text:'💡 임대인이 공제할 수 있는 것: 임차인 과실로 인한 파손, 원상복구 의무 위반 / 공제할 수 없는 것: 자연 마모, 벽지 변색, 장판 눌림 자국 등 경년 변화 (통상 사용으로 인한 감가)'});
+  }
+
+  // 공통 추가 정보
+  if (!moveIn && D.move !== 'unknown') {
+    extras.push({type:'danger',text:'⚠️ 전입신고 미비: 전입신고가 없으면 대항력(집이 팔려도 보증금 보호)이 없습니다. 아직 거주 중이라면 지금이라도 전입신고를 하세요.'});
+  }
+  if (!confirmed && D.confirm !== 'unknown') {
+    extras.push({type:'warn',text:'📌 확정일자 미비: 확정일자가 없으면 우선변제권이 없어 경매 시 불리합니다. 주민센터에서 300원에 받을 수 있습니다.'});
+  }
+
+  // Render
+  let html = `<div class="card"><div class="result-header">
+    <div class="emoji">${emoji}</div>
+    <h2>${title}</h2>
+    <p class="summary">${summary}</p>
+  </div></div>`;
+
+  // Timeline
+  html += `<div class="card"><h3>📋 해야 할 일 — 타임라인</h3><div class="timeline">`;
+  timeline.forEach(t => {
+    html += `<div class="tl-item${t.urgent?' urgent':''}">
+      <div class="tl-dot"></div>
+      <div class="tl-when">${t.when}</div>
+      <div class="tl-title">${t.title}</div>
+      <div class="tl-desc">${t.desc}</div>
+    </div>`;
+  });
+  html += `</div></div>`;
+
+  // Extras
+  if (extras.length) {
+    html += `<div class="card"><h3>💡 알아두세요</h3>`;
+    extras.forEach(e => { html += `<div class="info-box ${e.type}">${e.text}</div>`; });
+    html += `</div>`;
+  }
+
+  // 내용증명
+  if (letterSample) {
+    html += `<div class="card"><h3>📝 내용증명 샘플</h3>
+      <p style="font-size:.8rem;color:var(--gray-600);margin-bottom:8px">[대괄호] 안의 내용을 본인 정보로 바꿔서 사용하세요.</p>
+      <div class="sample-letter">${letterSample}</div>
+      <div class="info-box">📮 <strong>발송 방법:</strong> 우체국 방문 (3부 작성) 또는 인터넷우체국(epost.go.kr) → 내용증명 → 비용 약 5,000원</div>
+    </div>`;
+  }
+
+  // 비용 정보
+  html += `<div class="card"><h3>💸 예상 비용</h3>
+    <div style="font-size:.85rem;line-height:2">
+      · 내용증명: 약 5,000원<br>
+      · 등기부등본 열람: 700원 (인터넷등기소)<br>
+      · 임차권등기명령: 인지대 2,000원 + 송달료 약 5,000원<br>
+      · 소액사건심판: 인지대 ${dep<=2000?'5,000원 이하':'1~3만원'} + 송달료<br>
+      · 지연이자: 연 5% = <strong>1일 약 ${dailyInterest.toLocaleString()}원</strong>
+    </div>
+  </div>`;
+
+  // 유용한 링크
+  html += `<div class="card"><h3>🔗 유용한 링크</h3>
+    <div style="font-size:.85rem;line-height:2.2">
+      · <a href="https://www.iros.go.kr" target="_blank">인터넷등기소</a> — 등기부등본 열람<br>
+      · <a href="https://www.epost.go.kr" target="_blank">인터넷우체국</a> — 내용증명 발송<br>
+      · <a href="https://www.klac.or.kr" target="_blank">대한법률구조공단</a> (☎ 132) — 무료 법률 상담<br>
+      · <a href="https://www.lh.or.kr" target="_blank">주택도시보증공사(HUG)</a> — 전세보증금 반환보증<br>
+      · <a href="https://ecfs.scourt.go.kr" target="_blank">전자소송</a> — 임차권등기명령·소송 접수
+    </div>
+  </div>`;
+
+  // CTA
+  html += `<div class="cta-box no-print">
+    <h3>📄 상세 가이드 + 내용증명 자동생성</h3>
+    <p>내 정보를 입력하면 바로 출력 가능한 내용증명 PDF를 생성해드립니다.<br>+ 단계별 상세 체크리스트 포함</p>
+    <div class="price" style="margin-bottom:12px">9,900원</div>
+    <a class="btn" href="https://payhip.com/" target="_blank" rel="noopener">상세 가이드 받기 →</a>
+  </div>`;
+
+  // Email
+  html += `<div class="email-box no-print">
+    <p>📬 <strong>무료 보증금 반환 체크리스트</strong>를 이메일로 받아보세요</p>
+    <form class="email-row" onsubmit="submitEmail(event)">
+      <input type="email" placeholder="이메일 주소" required>
+      <button class="btn btn-primary btn-sm" type="submit">받기</button>
+    </form>
+    <p id="emailMsg" style="display:none;color:var(--green);margin-top:8px;font-size:.8rem">✅ 감사합니다! 곧 이메일을 확인해주세요.</p>
+  </div>`;
+
+  document.getElementById('resultContent').innerHTML = html;
+  goStep(4);
+}
+
+function submitEmail(e) {
+  e.preventDefault();
+  // In production, connect to Buttondown/Google Forms API
+  document.getElementById('emailMsg').style.display = 'block';
+  e.target.querySelector('input').disabled = true;
+  e.target.querySelector('button').disabled = true;
+}
+</script>
+
+<!-- JSON-LD for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "임차인 권리 진단",
+  "description": "전세·월세 보증금 반환을 위한 무료 진단 도구. 내 상황에 맞는 법적 절차와 내용증명 샘플을 제공합니다.",
+  "url": "https://maxmini0214.github.io/tenant-navigator/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "KRW"
+  },
+  "inLanguage": "ko"
+}
+</script>
+</body>
+</html>
